@@ -10,6 +10,7 @@ date: "2025-03-14"
 knitr::opts_chunk$set(echo = TRUE)
 
 # stuff
+# new stuff
 ```
 
 ## R Markdown
