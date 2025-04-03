@@ -1,0 +1,76 @@
+---
+title: "R key list of useful commands"
+author: "Saulai Vue"
+date: "2025-04-03"
+output: word_document
+---
+
+```{r setup, echo=FALSE, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This list is mainly used to combine all operators, functions, and useful commands in R primarily for practicing in class. Note some straightforward elements I have not put here.
+
+## R Arithmetic Operators
+%%  Modulus (Remainder from Division)
+%/%  Integer Division
+
+## Assignment Operators
+"my_var <- 3"  "my_var <<- 3"
+
+## R Comparison Operators
+==  Equal
+!=  Not equal
+>   Greater than
+<   Less than
+>=  Greater than or equal to
+<=  Less than or equal to
+
+## R Logical Operators
+&   Element-wise Logical AND operator. Returns TRUE if both elements are TRUE.
+&&  Logical AND operator = Returns TRUE if both statements are TRUE.
+|   Element-wise Logical OR operator. Returns TRUE if one of the statements is TRUE.
+||  Logical OR operator. Returns TRUE if one of the statements is TRUE.
+!   Logical NOT - Returns FALSE if statement is TRUE
+
+## R Miscellaneous Operators
+:   Creates a series of numbers in a sequence   "x <- 1:10"
+%in%  Find out if an element belongs to a vector   "x %in% y" --- Returns a logical vector
+
+## List of Package Libraries
+```{r , echo=FALSE, warning=FALSE}
+library(dplyr)
+library(tidyr)
+library(tidyverse)
+library(ggplot2)
+library(ggrepel)
+library(gganimate)
+library(tidyverse)
+library(gapminder) #for some data
+library(gifski) #creation of gifs, could also use library(png)
+library(lubridate) #working with time variables
+library(maps) #for mapping with ggplot
+library(mapdata) #for mapping with ggplot
+library(transformr) #for changing chloropleths across time
+library(ggthemes) #extra color options
+
+```
+
+## Github
+```{r , echo=FALSE, warning=FALSE}
+usethis::git_sitrep()
+# https://gist.github.com/Z3tt/3dab3535007acf108391649766409421
+# usethis::use_git_config(user.name = "vsaulai", user.email = "v.saulai@gmail.com")
+# usethis::create_github_token() 
+# credentials::set_github_pat("YourPAT")
+# gitcreds::gitcreds_set()
+```
+
+
+
+
+```{r , echo=FALSE, warning=FALSE}
+plot(pressure)
+```
+
+
