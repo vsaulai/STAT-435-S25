@@ -83,14 +83,16 @@ library(ggthemes) #extra color options
 ```
 
 ## Conditionals
-if (boolean_conditional) { <body> } -- An "if statement" that only executes if the condition boolean is TRUE.
-else if (boolean_conditional) { <body> } -- A statement "if the previous conditions were not true, then try this condition"
+if (Boolean_conditional) { <body> } -- An "if statement" that only executes if the condition boolean is TRUE.
+else if (Boolean_conditional) { <body> } -- A statement "if the previous conditions were not true, then try this condition"
 
 ## Loops
-while (boolean_condition) { <body> } -- A loop that executes a set of statements as long as a condition is TRUE.
+while (Boolean_condition) { <body> } -- A loop that executes a set of statements as long as a condition is TRUE.
   break -- statement that can stop a loop even if the condition is TRUE.
   next  -- skips an iteration without terminating the loop
-for 
+for (variable in sequence) {   - variable: the loop variable that takes on each value in the sequence
+  <# Code to execute>}  - sequence: A collection of values (vectors, lists, or ranges) that the loop will iterate over
+
 
 
 ## Github
