@@ -6,7 +6,7 @@ output: word_document
 ---
 
 ```{r setup, echo=FALSE, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+
 ```
 
 This list is mainly used to combine all operators, functions, and useful commands in R primarily for practicing in class. Note some straightforward elements I have not put here.
@@ -26,6 +26,22 @@ This list is mainly used to combine all operators, functions, and useful command
 >=  Greater than or equal to
 <=  Less than or equal to
 
+## Math functions
+sqrt()  square root
+abs()   absolute value
+ceiling()  rounds upwards to nearest integer
+floor()    rounds downwards to nearest integer
+seq()   ARGUMENTS: seq(from, to, by, length.out) this function generates a sequence of numbers with a specified pattern
+            from - starting value of sequence
+            to   - ending value of sequence
+            by   - step size between numbers
+            length.out - total number of elements in sequence
+
+## Checking Data Types
+is.vector(your_data)   Checks if this is a vector, returns a boolean(can also check other types, data frames, lists, matrices, factor, arrays, etc.)
+class()    Checks the class data type (vector, matrix, list, etc.)
+typeof()   Checks the object data type (numeric, character, logical, etc.)
+
 ## R Logical Operators
 &   Element-wise Logical AND operator. Returns TRUE if both elements are TRUE.
 &&  Logical AND operator = Returns TRUE if both statements are TRUE.
@@ -33,18 +49,28 @@ This list is mainly used to combine all operators, functions, and useful command
 ||  Logical OR operator. Returns TRUE if one of the statements is TRUE.
 !   Logical NOT - Returns FALSE if statement is TRUE
 
+## Escape Characters
+\   This denotes a character that is followed by another character that is typically illegal that you would want to insert inside a string.
+\\	Backslash
+\n	New Line
+\r	Carriage Return
+\t	Tab
+\b	Backspace
+
 ## R Miscellaneous Operators
 :   Creates a series of numbers in a sequence   "x <- 1:10"
 %in%  Find out if an element belongs to a vector   "x %in% y" --- Returns a logical vector
+
+%>%  Pipe operator
 
 ## List of Package Libraries
 ```{r , echo=FALSE, warning=FALSE}
 library(dplyr)
 library(tidyr)
 library(tidyverse)
-library(ggplot2)
-library(ggrepel)
-library(gganimate)
+library(ggplot2) #animated visuals
+library(ggrepel) #prevent overlapping text labels in ggplot2
+library(gganimate) #create animated visuals in ggplot
 library(tidyverse)
 library(gapminder) #for some data
 library(gifski) #creation of gifs, could also use library(png)
@@ -56,9 +82,21 @@ library(ggthemes) #extra color options
 
 ```
 
+## Conditionals
+if (boolean_conditional) { <body> } -- An "if statement" that only executes if the condition boolean is TRUE.
+else if (boolean_conditional) { <body> } -- A statement "if the previous conditions were not true, then try this condition"
+
+## Loops
+while (boolean_condition) { <body> } -- A loop that executes a set of statements as long as a condition is TRUE.
+  break -- statement that can stop a loop even if the condition is TRUE.
+  next  -- skips an iteration without terminating the loop
+for 
+
+
 ## Github
+
 ```{r , echo=FALSE, warning=FALSE}
-usethis::git_sitrep()
+usethis::git_sitrep() # gives information on current github user info
 # https://gist.github.com/Z3tt/3dab3535007acf108391649766409421
 # usethis::use_git_config(user.name = "vsaulai", user.email = "v.saulai@gmail.com")
 # usethis::create_github_token() 
@@ -66,7 +104,15 @@ usethis::git_sitrep()
 # gitcreds::gitcreds_set()
 ```
 
+## Advanced Git
 
++ branching: you can maintain "parallel" versions of your repository.
+This is useful for "exploratory" work. These can later be merged into
+the "main" branch.
++ bisecting: you can identify the commit responsible for introducing a
+bug using binary search
++ hooks: you can automatically execute tasks based upon git behaviors;
+can be used to automate testing/deployment
 
 
 ```{r , echo=FALSE, warning=FALSE}
