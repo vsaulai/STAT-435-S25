@@ -12,9 +12,17 @@ output: word_document
 This list is mainly used to combine all operators, functions, and useful commands in R primarily for practicing in class. Note some straightforward elements I have not put here.
 
 ## Accessibility
-ls() - shows all current objects in your environment
-print() - print out a given command
-view() - view a data structure
+ls() -  shows all current objects in your environment
+rm(object_name) -	 Removes a specific object from the environment.
+rm(list = ls()) - 	Clears all objects from the environment.
+getwd() -	 Gets the current working directory.
+setwd("path/to/directory") - 	Sets the working directory.
+dir() or list.files() - 	Lists all files in the current directory.
+help(function_name) - Displays help documentation for a function.
+?function_name -	Shortcut for the help() function.
+example(function_name) -	Shows an example usage of a function.
+str(object) -	 Displays the structure of an object.
+summary(object) - 	Provides a summary of a dataset, vector, or model.
 
 ## R Arithmetic Operators
 %%  Modulus (Remainder from Division)
@@ -43,9 +51,31 @@ seq()   ARGUMENTS: seq(from, to, by, length.out) this function generates a seque
             length.out - total number of elements in sequence
 
 ## Checking Data Types
-is.vector(your_data)   Checks if this is a vector, returns a boolean(can also check other types, data frames, lists, matrices, factor, arrays, etc.)
-class()    Checks the class data type (vector, matrix, list, etc.)
-typeof()   Checks the object data type (numeric, character, logical, etc.)
+is.vector(your_data) -  Checks if this is a vector, returns a boolean(can also check other types, data frames, lists, matrices, factor, arrays, etc.)
+class()  -  Checks the class data type (vector, matrix, list, etc.)
+typeof() -  Checks the object data type (numeric, character, logical, etc.)
+print(object)	Prints an object’s contents to the console.
+View(dataframe)	- Opens a spreadsheet-like view of a data frame.
+head(dataframe, n=6) -	Displays the first n rows of a data frame.
+tail(dataframe, n=6) -	Displays the last n rows of a data frame.
+dim(dataframe) -	Returns the number of rows and columns of a data frame or matrix.
+names(dataframe) -	Returns the column names of a data frame.
+class(object) -	Returns the data type of an object.
+typeof(object) -	Returns the low-level type of an object.
+is.na(object) -	Checks for missing values.
+complete.cases(dataframe) -	Returns TRUE for rows without missing values.
+any(is.na(dataframe)) -	Checks if there are any missing values in the dataset.
+
+## Handling Data
+nrow(dataframe) - 	Returns the number of rows in a data frame.
+ncol(dataframe)	-  Returns the number of columns in a data frame.
+dim(dataframe)	-  Returns both the number of rows and columns.
+colnames(dataframe) - 	Returns column names of a data frame.
+rownames(dataframe) - 	Returns row names of a data frame.
+unique(vector) - 	Extracts unique values from a vector.
+sort(vector) - 	Sorts a vector in ascending order.
+order(vector) - 	Returns the indices that would sort a vector.
+table(vector) - 	Creates a frequency table.
 
 ## R Logical Operators
 &   Element-wise Logical AND operator. Returns TRUE if both elements are TRUE.
@@ -66,9 +96,18 @@ typeof()   Checks the object data type (numeric, character, logical, etc.)
 :   Creates a series of numbers in a sequence   "x <- 1:10"
 %in%  Find out if an element belongs to a vector   "x %in% y" --- Returns a logical vector
 
-%>%  Pipe operator
+%>%  Pipe operator (Ctrl + Shift + C) 
 
 ## List of Package Libraries
+install.packages("package_name") - 	Installs a package.
+library(package_name) - 	Loads a package.
+update.packages() - 	Updates all installed packages.
+sessionInfo() - 	Displays R session details, including loaded packages.
+save(object, file = "filename.RData") - 	Saves an R object to a file.
+load("filename.RData") - 	Loads an R object from a file.
+write.csv(dataframe, "file.csv") - 	Exports a data frame to a CSV file.
+read.csv("file.csv") - 	Imports a CSV file into R.
+
 ```{r , echo=FALSE, warning=FALSE}
 library(dplyr)
 library(tidyr)
@@ -98,7 +137,6 @@ while (Boolean_condition) { <body> } -- A loop that executes a set of statements
 for (variable in sequence) {   - variable: the loop variable that takes on each value in the sequence
   <# Code to execute>}  - sequence: A collection of values (vectors, lists, or ranges) that the loop will iterate over
 
-
 ## Data Structures
 Vector - A one-dimensional data structure that is homogeneous(i.e., all elements must be of the same data type)
       temp <- c(1,2,3,4) -- defining a vector starts with the concatenate function.
@@ -107,7 +145,6 @@ Vector - A one-dimensional data structure that is homogeneous(i.e., all elements
               df[["column_name"]] - data frame accessing
               print(df$rowname) - accessing by column extracting
               subset() - accessing a data frame with certain conditions
-              
 
 Matrix - A two-dimensional data structure that is also homogeneous (i.e., all elements must be of the same data type)
       matrix(1:6, nrow = 2, ncol = 3) - arguments for making a matrix from a sequence with rows and columns defined.
@@ -117,8 +154,6 @@ Array - A multi-dimensional data structure that can be 3D or 4D
       array(), arguments "array(<data>, dim = c(x,y,z)) - where dimensions can be predefined while creating an array
 Data Frame - A two-dimensional table-like structure containing multiple types of different data types. Works similar to a spreadsheet.
       data.frame() - can define columns with different data types with this argument
-      
-
 
 ## Github
 
@@ -141,6 +176,7 @@ bug using binary search
 + hooks: you can automatically execute tasks based upon git behaviors;
 can be used to automate testing/deployment
 
+## ggplot
 
 ```{r , echo=FALSE, warning=FALSE}
 plot(pressure)
