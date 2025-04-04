@@ -18,7 +18,6 @@ library(png)
 library(dplyr)
 library(gridExtra)
 library(grid)
-
 ```
 
 ```{r, echo=FALSE, warning=FALSE}
@@ -29,6 +28,11 @@ Sys.setenv("VROOM_CONNECTION_SIZE" = 5000000) # sets an environment variable to 
 library(devtools)
 devtools::install_github("abresler/nbastatR@aba9179ef644f263387c1536d6ddd26104d79cf4")
 ```
+
+## 2016, 17, 18 San Antonio Spurs Shot Analysis
+* Taken from the 2015-18 season from the nbastatR
+* Focuses on favored regions from Spur's players to have shot from at the distance/region
+* Omitted layups and shots from ranges greater than 2
 
 ```{r, echo=FALSE}
 # San Antonio Spurs, 2015-16 Season
@@ -116,9 +120,16 @@ shot_map_plot_16_success <- ggplot(spurs_shots_2016_shotyes, aes(x = locationX, 
   theme_minimal() +
   labs(title = "2016 San Antonio Spurs: Shot Chart Scored", x = NULL, y = NULL)
 
+spurs_shots_2016_summaryyes <- spurs_shots_2016_shotyes %>% # Summary of 2016 averages of shot locations
+      dplyr::filter(typeEvent != "Missed Shot") %>%
+      select(locationX, locationY) %>%
+      summary()
+
 print(shot_map_plot_16)
 print(shot_map_plot_16_success)
+View(spurs_shots_2016_summaryyes)
 ```
+* The average of shots taken and landing a score is position = (4.623, 64.42)
 
 ## NBA Shot Charts Coordinate System
 A basketball court's dimensions are measured at 94x50ft with the origin being at the center of the hoop,
@@ -219,6 +230,7 @@ print(shot_map_16)
 print(shot_map_17)
 print(shot_map_18)
 ```
+
 # Density Regions on the Court from 2016-2018 Spurs
 
 * Levels indicate higher count of attempted basketball hoops (yellow is higher density)
