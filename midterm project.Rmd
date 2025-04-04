@@ -9,16 +9,69 @@ output: word_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r, echo=FALSE, warning=FALSE}
+library(dslabs)
+library(tidyverse)
+install.packages("ggplot")
+library(ggplot2)
+library(gganimate)
+library(dplyr)
+library(tidyr)
+```
+
+```{r, echo=FALSE, warning=FALSE}
+Sys.setenv("VROOM_CONNECTION_SIZE" = 5000000) # sets an environment variable to increase buffer size to accommodate a long line
+```
 
 ```{r, echo=FALSE, warning=FALSE}
 library(devtools)
-
 devtools::install_github("abresler/nbastatR@aba9179ef644f263387c1536d6ddd26104d79cf4")
 ```
 
+```{r, echo=FALSE, warning=FALSE}
+spurs_shots_2016 <- nbastatR::teams_shots(teams = "San Antonio Spurs", 
+  team_ids = 1610612759, 
+  all_active_teams = F, 
+  season_types = "Regular Season", 
+  seasons = 2016, 
+  measures = "FGA", 
+  periods = 0, 
+  months = 0, 
+  date_from = NA, 
+  date_to = NA, 
+  nest_data = F, 
+  return_message = T)
 
+spurs_shots_2017 <- nbastatR::teams_shots(teams = "San Antonio Spurs", 
+  team_ids = 1610612759, 
+  all_active_teams = F, 
+  season_types = "Regular Season", 
+  seasons = 2017, 
+  measures = "FGA", 
+  periods = 0, 
+  months = 0, 
+  date_from = NA, 
+  date_to = NA, 
+  nest_data = F, 
+  return_message = T)
+
+spurs_shots_2018 <- nbastatR::teams_shots(teams = "San Antonio Spurs", 
+  team_ids = 1610612759, 
+  all_active_teams = F, 
+  season_types = "Regular Season", 
+  seasons = 2018, 
+  measures = "FGA", 
+  periods = 0, 
+  months = 0, 
+  date_from = NA, 
+  date_to = NA, 
+  nest_data = F, 
+  return_message = T)
+```
 
 ```{r, echo=FALSE, warning=FALSE}
-
+View(spurs_shots_2016)
+View(spurs_shots_2017)
+View(spurs_shots_2018)
 ```
 
