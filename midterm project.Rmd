@@ -28,7 +28,7 @@ library(devtools)
 devtools::install_github("abresler/nbastatR@aba9179ef644f263387c1536d6ddd26104d79cf4")
 ```
 
-```{r, echo=FALSE, warning=FALSE}
+```{r, echo=FALSE}
 # San Antonio Spurs, 2015-16 Season
 spurs_shots_2016 <- nbastatR::teams_shots(teams = "San Antonio Spurs", 
   team_ids = 1610612759, 
@@ -110,7 +110,7 @@ print(shot_map_16)
 ## NBA Shot Charts Coordinate System
 A basketball court's dimensions are measured at 94x50ft with the origin being at the center of the hoop, therefore, on the left of the x dimensions is negative and the right positive. Since the boundaries of the x axis is 50 ft long, the ranges go from left to right (-250, 250) with each increment of 10's measuring to a foot each meaning inches are not measured at all. The y axis can also be measured between the ranges of (-40, 940).
 
-```{r}
+```{r, echo=FALSE}
 #2017 San Antonio Spurs: Shot Chart Map (scatter plot)
 spurs_shots_2017_a <- spurs_shots_2017 %>%
   select(yearSeason, typeShot, locationX, locationY, distanceShot, isShotMade)
@@ -143,7 +143,7 @@ print(shot_map_17)
 
 ## 2018 San Antonio Spurs Shot Chart
 
-```{r}
+```{r, echo=FALSE}
 #2018 San Antonio Spurs: Shot Chart Map (scatter plot)
 spurs_shots_2018_a <- spurs_shots_2018 %>%
   select(yearSeason, typeShot, locationX, locationY, distanceShot, isShotMade)
