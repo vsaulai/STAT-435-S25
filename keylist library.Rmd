@@ -111,6 +111,8 @@ Vector - A one-dimensional data structure that is homogeneous(i.e., all elements
 
 Matrix - A two-dimensional data structure that is also homogeneous (i.e., all elements must be of the same data type)
       matrix(1:6, nrow = 2, ncol = 3) - arguments for making a matrix from a sequence with rows and columns defined.
+        colSums(), rowSums() - if specified on a matrix, immediately "squishes" the columns or rows into the dimensions of the table.
+        
 Array - A multi-dimensional data structure that can be 3D or 4D
       array(), arguments "array(<data>, dim = c(x,y,z)) - where dimensions can be predefined while creating an array
 Data Frame - A two-dimensional table-like structure containing multiple types of different data types. Works similar to a spreadsheet.
