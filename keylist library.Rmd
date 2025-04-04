@@ -6,7 +6,7 @@ output: word_document
 ---
 
 ```{r setup, echo=FALSE, include=FALSE}
-
+knitr::opts_chunk$set(echo = TRUE)
 ```
 
 This list is mainly used to combine all operators, functions, and useful commands in R primarily for practicing in class. Note some straightforward elements I have not put here.
@@ -150,6 +150,8 @@ Matrix - A two-dimensional data structure that is also homogeneous (i.e., all el
       matrix(1:6, nrow = 2, ncol = 3) - arguments for making a matrix from a sequence with rows and columns defined.
         colSums(), rowSums() - if specified on a matrix, immediately "squishes" the columns or rows into the dimensions of the table.
         
+# sometimes it is ideal to make any subset of data another object instead of the initial thing.  
+        
 Array - A multi-dimensional data structure that can be 3D or 4D
       array(), arguments "array(<data>, dim = c(x,y,z)) - where dimensions can be predefined while creating an array
 Data Frame - A two-dimensional table-like structure containing multiple types of different data types. Works similar to a spreadsheet.
@@ -157,8 +159,8 @@ Data Frame - A two-dimensional table-like structure containing multiple types of
 
 ## Github
 
-```{r , echo=FALSE, warning=FALSE}
-usethis::git_sitrep() # gives information on current github user info
+```{r, echo=FALSE, warning=FALSE}
+# usethis::git_sitrep() # gives information on current github user info
 # https://gist.github.com/Z3tt/3dab3535007acf108391649766409421
 # usethis::use_git_config(user.name = "vsaulai", user.email = "v.saulai@gmail.com")
 # usethis::create_github_token() 
@@ -177,9 +179,4 @@ bug using binary search
 can be used to automate testing/deployment
 
 ## ggplot
-
-```{r , echo=FALSE, warning=FALSE}
-plot(pressure)
-```
-
 
