@@ -11,6 +11,11 @@ output: word_document
 
 This list is mainly used to combine all operators, functions, and useful commands in R primarily for practicing in class. Note some straightforward elements I have not put here.
 
+## Accessibility
+ls() - shows all current objects in your environment
+print() - print out a given command
+view() - view a data structure
+
 ## R Arithmetic Operators
 %%  Modulus (Remainder from Division)
 %/%  Integer Division
@@ -93,6 +98,24 @@ while (Boolean_condition) { <body> } -- A loop that executes a set of statements
 for (variable in sequence) {   - variable: the loop variable that takes on each value in the sequence
   <# Code to execute>}  - sequence: A collection of values (vectors, lists, or ranges) that the loop will iterate over
 
+
+## Data Structures
+Vector - A one-dimensional data structure that is homogeneous(i.e., all elements must be of the same data type)
+      temp <- c(1,2,3,4) -- defining a vector starts with the concatenate function.
+          indexing- addressing certain elements within a vector or matrix using a bracket [] (note. arguments differ for )
+              vector_name[index] - position of the element within a vector that you want to access
+              df[["column_name"]] - data frame accessing
+              print(df$rowname) - accessing by column extracting
+              subset() - accessing a data frame with certain conditions
+              
+
+Matrix - A two-dimensional data structure that is also homogeneous (i.e., all elements must be of the same data type)
+      matrix(1:6, nrow = 2, ncol = 3) - arguments for making a matrix from a sequence with rows and columns defined.
+Array - A multi-dimensional data structure that can be 3D or 4D
+      array(), arguments "array(<data>, dim = c(x,y,z)) - where dimensions can be predefined while creating an array
+Data Frame - A two-dimensional table-like structure containing multiple types of different data types. Works similar to a spreadsheet.
+      data.frame() - can define columns with different data types with this argument
+      
 
 
 ## Github
