@@ -16,6 +16,7 @@ library(ggplot2)
 library(ggimage)
 library(dplyr)
 library(png)
+library(gridExtra)
 library(grid)
 ```
 
@@ -78,10 +79,13 @@ court_image <- image_read2(court_image_url, cut_empty_space = TRUE)
 court_raster <- as.raster(court_image) #background court image line conversion
 #2016 San Antonio Spurs: Shot Chart Map (scatter plot)
 spurs_shots_2016_a <- spurs_shots_2016 %>%
-  select(yearSeason, typeShot, locationX, locationY, distanceShot, isShotMade)
+  select(yearSeason, typeShot, locationX, locationY, distanceShot, isShotMade, distanceShot)
+spurs_shots_2016_b <- spurs_shots_2016_a %>%
+  select(yearSeason, locationX, locationY, distanceShot) %>%
+  filter(distanceShot >= 2) #removed shots made from distance 0-1
 spurs_shots_2016_shotmade <- spurs_shots_2016_a %>%
   select(locationX, locationY, typeShot)
-spurs_shots_2016_xy <- spurs_shots_2016_a %>%
+spurs_shots_2016_xy <- spurs_shots_2016_b %>%
   select(locationX, locationY)
 typeshot <- spurs_shots_2016_shotmade$typeShot
 
@@ -91,7 +95,7 @@ shot_map_plot_16 <- ggplot(spurs_shots_2016_shotmade, aes(x = locationX, y = loc
                     xmin = -265, xmax = 258, ymin = -45, ymax = 455) +
   geom_point(alpha = 0.3, size = 1) +
   scale_color_manual(values = c("2PT Field Goal" = "blue", "3PT Field Goal" = "red")) +
-  ylim(-40, 600) +
+  ylim(-40, 700) +
   xlim(-280, 280) +
   theme_minimal() +
   labs(title = "2016 San Antonio Spurs: Shot Chart", x = NULL, y = NULL)
@@ -106,21 +110,25 @@ from left to right (-250, 250) with each increment of 10's measuring to a feet.
 The y axis can also be measured between the ranges of (-40, 940).
 
 ```{r, echo=FALSE}
-#2017 San Antonio Spurs: Shot Chart Map (scatter plot)
+#2016 San Antonio Spurs: Shot Chart Map (scatter plot)
 spurs_shots_2017_a <- spurs_shots_2017 %>%
-  select(yearSeason, typeShot, locationX, locationY, distanceShot, isShotMade)
-spurs_shots_2017_shotmade <- spurs_shots_2017_a %>%
+  select(yearSeason, typeShot, locationX, locationY, distanceShot, isShotMade, distanceShot)
+spurs_shots_2017_b <- spurs_shots_2017_a %>%
+  select(yearSeason, locationX, locationY, distanceShot) %>%
+  filter(distanceShot >= 2) #removed shots made from distance 0-1
+spurs_shots_2017_type <- spurs_shots_2017_a %>%
   select(locationX, locationY, typeShot)
-spurs_shots_2017_xy <- spurs_shots_2017_a %>%
+spurs_shots_2017_xy <- spurs_shots_2017_b %>%
   select(locationX, locationY)
-typeshot_2 <- spurs_shots_2017_shotmade$typeShot
+typeshot_2 <- spurs_shots_2017_type$typeShot
+
 #2017 Shot Chart (scatter_plot)
-shot_map_plot_17 <- ggplot(spurs_shots_2017_xy, aes(x = locationX, y = locationY, color = typeshot_2)) +
+shot_map_plot_17 <- ggplot(spurs_shots_2017_type, aes(x = locationX, y = locationY, color = typeshot_2)) +
   annotation_custom(rasterGrob(court_raster, width = unit(1, "npc"), height = unit(1, "npc")), #background image import scaled
                     xmin = -265, xmax = 255, ymin = -47, ymax = 460) +
   geom_point(alpha = 0.3, size = 1) +
   scale_color_manual(values = c("2PT Field Goal" = "blue", "3PT Field Goal" = "red")) +
-  ylim(-40, 750) +
+  ylim(-40, 700) +
   xlim(-280, 280) +
   theme_minimal() +
   labs(title = "2017 San Antonio Spurs: Shot Chart", x = NULL, y = NULL)
@@ -134,19 +142,22 @@ print(shot_map_plot_17)
 ```{r, echo=FALSE}
 #2018 San Antonio Spurs: Shot Chart Map (scatter plot)
 spurs_shots_2018_a <- spurs_shots_2018 %>%
-  select(yearSeason, typeShot, locationX, locationY, distanceShot, isShotMade) #format df
-spurs_shots_2018_shotmade <- spurs_shots_2018_a %>%
+  select(yearSeason, typeShot, locationX, locationY, distanceShot, isShotMade, distanceShot)
+spurs_shots_2018_b <- spurs_shots_2018_a %>%
+  select(yearSeason, locationX, locationY, distanceShot) %>%
+  filter(distanceShot >= 2) #removed shots made from distance 0-1
+spurs_shots_2018_type <- spurs_shots_2018_a %>%
   select(locationX, locationY, typeShot)
-spurs_shots_2018_xy <- spurs_shots_2018_a %>%
+spurs_shots_2018_xy <- spurs_shots_2018_b %>%
   select(locationX, locationY)
-typeshot_3 <- spurs_shots_2018_shotmade$typeShot
+
 #2018 Shot Chart (scatter_plot)
-shot_map_plot_18 <- ggplot(spurs_shots_2018_xy, aes(x = locationX, y = locationY, color = typeshot_3)) +
+shot_map_plot_18 <- ggplot(spurs_shots_2018_type, aes(x = locationX, y = locationY, color = spurs_shots_2018_type$typeShot)) +
   annotation_custom(rasterGrob(court_raster, width = unit(1, "npc"), height = unit(1, "npc")), #background image import scaled
                     xmin = -265, xmax = 255, ymin = -47, ymax = 460) +
   geom_point(alpha = 0.3, size = 1) +
   scale_color_manual(values = c("2PT Field Goal" = "blue", "3PT Field Goal" = "red")) +
-  ylim(-40, 750) +
+  ylim(-40, 700) +
   xlim(-280, 280) +
   theme_minimal() +
   labs(title = "2018 San Antonio Spurs: Shot Chart", x = NULL, y = NULL)
@@ -159,7 +170,7 @@ print(shot_map_plot_18)
 shot_map_16 <- ggplot(spurs_shots_2016_xy, aes(x = locationX, y = locationY)) +
   annotation_custom(rasterGrob(court_raster, width = unit(1, "npc"), height = unit(1, "npc")), #background image import scaled
                     xmin = -260, xmax = 252, ymin = -45, ymax = 472) +
-  stat_density_2d(aes(fill = after_stat(level)), geom = "polygon", bins = 18, alpha = 0.8) +
+  stat_density_2d(aes(fill = after_stat(level)), geom = "polygon", bins = 13, alpha = 0.8) +
   scale_fill_viridis_c() +
   ylim(-40, 700) +
   xlim(-280, 280) +
@@ -170,7 +181,7 @@ shot_map_16 <- ggplot(spurs_shots_2016_xy, aes(x = locationX, y = locationY)) +
 shot_map_17 <- ggplot(spurs_shots_2017_xy, aes(x = locationX, y = locationY)) +
   annotation_custom(rasterGrob(court_raster, width = unit(1, "npc"), height = unit(1, "npc")), #background image import scaled
                     xmin = -260, xmax = 250, ymin = -47, ymax = 472) +
-  stat_density_2d(aes(fill = after_stat(level)), geom = "polygon", bins = 18, alpha = 0.8) +
+  stat_density_2d(aes(fill = after_stat(level)), geom = "polygon", bins = 13, alpha = 0.8) +
   scale_fill_viridis_c() +
   ylim(-40, 700) +
   xlim(-280, 280) +
@@ -181,7 +192,7 @@ shot_map_17 <- ggplot(spurs_shots_2017_xy, aes(x = locationX, y = locationY)) +
 shot_map_18 <- ggplot(spurs_shots_2018_xy, aes(x = locationX, y = locationY)) +
   annotation_custom(rasterGrob(court_raster, width = unit(1, "npc"), height = unit(1, "npc")), #background image import scaled
                     xmin = -260, xmax = 250, ymin = -47, ymax = 472) +
-  stat_density_2d(aes(fill = after_stat(level)), geom = "polygon", bins = 18, alpha = 0.8) +
+  stat_density_2d(aes(fill = after_stat(level)), geom = "polygon", bins = 13, alpha = 0.8) +
   scale_fill_viridis_c() +
   ylim(-40, 700) +
   xlim(-280, 280) +
@@ -193,8 +204,7 @@ print(shot_map_17)
 print(shot_map_18)
 ```
 
-
-```{r, echo=FALSE, warning=FALSE}
+```{r, echo=FALSE}
 
 ```
 
