@@ -116,6 +116,7 @@ library(ggplot2) #animated visuals
 library(ggrepel) #prevent overlapping text labels in ggplot2
 library(gganimate) #create animated visuals in ggplot
 library(tidyverse)
+library(dslabs)
 library(gapminder) #for some data
 library(gifski) #creation of gifs, could also use library(png)
 library(lubridate) #working with time variables
