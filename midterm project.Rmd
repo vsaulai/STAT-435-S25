@@ -70,7 +70,10 @@ spurs_shots_2018 <- nbastatR::teams_shots(teams = "San Antonio Spurs",
   nest_data = F, 
   return_message = T)
 ```
-## 2018 San Antonio Spurs Shot Chart
+## 2016 San Antonio Spurs Shot Chart
+* Most attempted and successful scores were generally random
+* For two pointers the preferred region in 2016 was the middle right region
+
 
 ```{r, echo=FALSE, warning=FALSE}
 #1/2 Basketball Court Image Import
@@ -87,6 +90,8 @@ spurs_shots_2016_shotmade <- spurs_shots_2016_a %>%
   select(locationX, locationY, typeShot)
 spurs_shots_2016_xy <- spurs_shots_2016_b %>%
   select(locationX, locationY)
+spurs_shots_2016_shotyes <- spurs_shots_2016 %>%
+  select(typeEvent, locationX, locationY)
 typeshot <- spurs_shots_2016_shotmade$typeShot
 
 #2016 Shot Chart (scatter_plot)
@@ -94,14 +99,24 @@ shot_map_plot_16 <- ggplot(spurs_shots_2016_shotmade, aes(x = locationX, y = loc
   annotation_custom(rasterGrob(court_raster, width = unit(1, "npc"), height = unit(1, "npc")), #background image import scaled
                     xmin = -265, xmax = 258, ymin = -45, ymax = 455) +
   geom_point(alpha = 0.3, size = 1) +
-  scale_color_manual(values = c("2PT Field Goal" = "blue", "3PT Field Goal" = "red")) +
+  scale_color_manual(values = c("2PT Field Goal" = "blue", "3PT Field Goal" = "red"), name = NULL) +
   ylim(-40, 700) +
   xlim(-280, 280) +
   theme_minimal() +
   labs(title = "2016 San Antonio Spurs: Shot Chart", x = NULL, y = NULL)
 
-print(shot_map_plot_16)
+shot_map_plot_16_success <- ggplot(spurs_shots_2016_shotyes, aes(x = locationX, y = locationY, color = typeEvent)) +
+  annotation_custom(rasterGrob(court_raster, width = unit(1, "npc"), height = unit(1, "npc")), #background image import scaled
+                    xmin = -265, xmax = 258, ymin = -45, ymax = 455) +
+  geom_point(alpha = 0.3, size = 1) +
+  scale_color_manual(values = c("Made Shot" = "green", "Missed Shot" = "red"), name = NULL) +
+  ylim(-40, 700) +
+  xlim(-280, 280) +
+  theme_minimal() +
+  labs(title = "2016 San Antonio Spurs: Shot Chart Scored", x = NULL, y = NULL)
 
+print(shot_map_plot_16)
+print(shot_map_plot_16_success)
 ```
 
 ## NBA Shot Charts Coordinate System
@@ -127,7 +142,7 @@ shot_map_plot_17 <- ggplot(spurs_shots_2017_type, aes(x = locationX, y = locatio
   annotation_custom(rasterGrob(court_raster, width = unit(1, "npc"), height = unit(1, "npc")), #background image import scaled
                     xmin = -265, xmax = 255, ymin = -47, ymax = 460) +
   geom_point(alpha = 0.3, size = 1) +
-  scale_color_manual(values = c("2PT Field Goal" = "blue", "3PT Field Goal" = "red")) +
+  scale_color_manual(values = c("2PT Field Goal" = "blue", "3PT Field Goal" = "red"), name = NULL) +
   ylim(-40, 700) +
   xlim(-280, 280) +
   theme_minimal() +
@@ -150,13 +165,13 @@ spurs_shots_2018_type <- spurs_shots_2018_a %>%
   select(locationX, locationY, typeShot)
 spurs_shots_2018_xy <- spurs_shots_2018_b %>%
   select(locationX, locationY)
-
+typeshot_3 <- spurs_shots_2018_type$typeShot
 #2018 Shot Chart (scatter_plot)
-shot_map_plot_18 <- ggplot(spurs_shots_2018_type, aes(x = locationX, y = locationY, color = spurs_shots_2018_type$typeShot)) +
+shot_map_plot_18 <- ggplot(spurs_shots_2018_type, aes(x = locationX, y = locationY, color = typeshot_3)) +
   annotation_custom(rasterGrob(court_raster, width = unit(1, "npc"), height = unit(1, "npc")), #background image import scaled
                     xmin = -265, xmax = 255, ymin = -47, ymax = 460) +
   geom_point(alpha = 0.3, size = 1) +
-  scale_color_manual(values = c("2PT Field Goal" = "blue", "3PT Field Goal" = "red")) +
+  scale_color_manual(values = c("2PT Field Goal" = "blue", "3PT Field Goal" = "red"), name = NULL) +
   ylim(-40, 700) +
   xlim(-280, 280) +
   theme_minimal() +
@@ -203,8 +218,9 @@ print(shot_map_16)
 print(shot_map_17)
 print(shot_map_18)
 ```
+# Density Regions on the Court from 2016-2018 Spurs
 
-```{r, echo=FALSE}
-
-```
-
+* Levels indicate higher count of attempted basketball hoops (yellow is higher density)
+* 2016 San Antonio Spurs tended to take less shots from a larger distance than a layup
+* 2017 season attempted more shots in diverse regions on the basketball court
+* 2018 season attempted more three pointers at a distance than two pointers
