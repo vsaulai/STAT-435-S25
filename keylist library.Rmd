@@ -91,7 +91,7 @@ table(vector) - 	Creates a frequency table.
 \r	Carriage Return
 \t	Tab
 \b	Backspace
-
+\
 ## R Miscellaneous Operators
 :   Creates a series of numbers in a sequence   "x <- 1:10"
 %in%  Find out if an element belongs to a vector   "x %in% y" --- Returns a logical vector
@@ -144,20 +144,72 @@ Vector - A one-dimensional data structure that is homogeneous(i.e., all elements
           indexing- addressing certain elements within a vector or matrix using a bracket [] (note. arguments differ for )
               vector_name[index] - position of the element within a vector that you want to access
               df[["column_name"]] - data frame accessing
-              print(df$rowname) - accessing by column extracting
+              print(df$rowname) - accessing by column or specific name type
               subset() - accessing a data frame with certain conditions
+          comparing vectors
+             use identical() or all.equal()
 
 Matrix - A two-dimensional data structure that is also homogeneous (i.e., all elements must be of the same data type)
       matrix(1:6, nrow = 2, ncol = 3) - arguments for making a matrix from a sequence with rows and columns defined.
         colSums(), rowSums() - if specified on a matrix, immediately "squishes" the columns or rows into the dimensions of the table.
         
-# sometimes it is ideal to make any subset of data another object instead of the initial thing.  
+sometimes it is ideal to make any subset of data another object instead of the initial thing.  
         
 Array - A multi-dimensional data structure that can be 3D or 4D
       array(), arguments "array(<data>, dim = c(x,y,z)) - where dimensions can be predefined while creating an array
 Data Frame - A two-dimensional table-like structure containing multiple types of different data types. Works similar to a spreadsheet.
       data.frame() - can define columns with different data types with this argument
 
+## Data Manipulation
+
+## Escape Sequences (Special Characters)
+
+\n	New line
+\t	Tab
+\\	Backslash \
+\"	Double quote " inside a string
+\'	Single quote ' inside a string
+\\d  represents digits, inside a string
+\s  represents white space, inside a string
+^    start of the string
+\\s* none or  more white space
+$   end of string
+
+
+## Strings (str) Detect, Locate, Extract, Describe, Replace
+
+str_detect	Detect  	Is the pattern in the string?	grepl
+str_which 	Detect  	Returns the index of entries that contain the pattern.	grep
+str_subset 	Detect  	Returns the subset of strings that contain the pattern.	grep with value = TRUE
+str_locate 	Locate    	Returns positions of first occurrence of pattern in a string.	regexpr
+str_locate_all  	Locate  	Returns position of all occurrences of pattern in a string.	gregexpr
+str_view   	  Locate  	  Show the first part of the string that matches pattern.	
+str_view_all  	Locate  	Show me all the parts of the string that match the pattern.	
+str_extract  	Extract 	Extract the first part of the string that matches the pattern.	
+str_extract_all 	Extract	  Extract all parts of the string that match the pattern.	
+str_match 	  Extract 	  Extract first part of the string that matches the groups and the patterns defined by the groups.	
+str_match_all 	Extract 	Extract all parts of the string that matches the groups and the patterns defined by the groups.	
+str_sub   	Extract 	Extract a substring.	substring
+str_split   	Extract	    Split a string into a list with parts separated by pattern.	strsplit
+str_split_fixed	    Extract   	Split a string into a matrix with parts separated by pattern.	strsplit with fixed = TRUE
+str_count	    Describe    	Count number of times a pattern appears in a string.	
+str_length	    Describe    	Number of character in string.	nchar
+str_replace   	Replace   	Replace first part of a string matching a pattern with another.	
+str_replace_all	    Replace   	Replace all parts of a string matching a pattern with another.	gsub
+str_to_upper	    Replace	    Change all characters to upper case.	toupper
+str_to_lower    	Replace   	Change all characters to lower case.	tolower
+str_to_title    Replace	    Change first character to upper and rest to lower.	
+str_replace_na    	Replace	    Replace all NAs to a new value.	
+str_trim    	Replace   	Remove white space from start and end of string.	
+str_c   	Manipulate  	Join multiple strings.	paste0
+str_conv    	Manipulate	Change the encoding of the string.	
+str_sort    	Manipulate	Sort the vector in alphabetical order.	sort
+str_order   	Manipulate	Index needed to order the vector in alphabetical order.	order
+str_trunc   	Manipulate  	Truncate a string to a fixed size.	
+str_pad	    Manipulate  	Add white space to string to make it a fixed size.	
+str_dup	    Manipulate  	Repeat a string.	rep then paste
+str_wrap  	Manipulate	Wrap things into formatted paragraphs.	
+str_interp  	Manipulate  	String interpolation.	sprintf
 ## Github
 
 ```{r, echo=FALSE, warning=FALSE}
@@ -178,6 +230,19 @@ the "main" branch.
 bug using binary search
 + hooks: you can automatically execute tasks based upon git behaviors;
 can be used to automate testing/deployment
+
+## basicplots
+plot(): generic plotting function
+points(): add points to an existing plot
+lines(), abline(): add lines to an existing plot
+text(), legend(): add text to an existing plot
+rect(), polygon(): add shapes to an existing plot
+hist(), image(): histogram and heatmap
+heat.colors(), topo.colors(), etc: create a color vector
+density(): estimate density, which can be plotted
+contour(): draw contours, or add to existing plot
+curve(): draw a curve, or add to existing plot
+
 
 ## ggplot
 
