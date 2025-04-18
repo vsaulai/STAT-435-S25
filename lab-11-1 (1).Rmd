@@ -1,0 +1,122 @@
+---
+title: 'Lab 11: Play Ball!'
+author: "STAT 345"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This lab shows how R interfaces with other programs, particularly SQL database management. We will use the package `RSQLite`, which not only provides an R interface but also installs a minimal library for database access. 
+
+
+Practice with SQL data extraction
+===
+
+- We will practice SQL commands using data from the Baseball Databank http://baseball-databank.org. Information on the attributes in the database can be found at http://baseball1.com/files/database/readme58.txt. Download the database file used in lecture, and save in your working directory for this lab.  Also, install the packages `DBI`, `RSQLite` if you haven't done so already, and load them into your R session with `library()`. 
+```{r}
+library(dplyr)
+library(ggplot2)
+library(data.table)
+library(RSQLite)
+library(DBI)
+drv = dbDriver("SQLite")
+con = dbConnect(drv, dbname="baseball.db")
+dbListTables(con)
+```
+
+
+There is an R package, `lahman`, containing data frames with all of this data, which you can use after the lab ssession if you’re curious. Using it in this session will be counter-productive.
+
+- Using `dbDriver()`, `dbConnect()`, set up a connection called `con` the SQLite database stored in `baseball.db`.  Then, use `dbListTables()` to list the tables in the database.
+
+- Using `dbReadTable()`, grab the table named "Batting" and save it as a data frame in your R session, called `batting`. Check that `batting` is indeed a data frame, and that it has dimension 93955 x 24. 
+```{r}
+batting <- dbReadTable(con, "Batting")
+head(batting)
+```
+
+- Remove `eval=FALSE` from the preamble to the next R code chunk below. Then, after each SQL query (each call to `dbGetQuery()`), explain in words what is being extracted, and write some `dplyr` commands to do the equivalent.
+
+```{r}
+## List the oldest 10 players by yearID
+dbGetQuery(con, paste("SELECT playerID, yearID, AB, H, HR",
+                      "FROM Batting",
+                      "ORDER BY yearID",
+                      "LIMIT 10"))
+## List the top 10 players with the most home runs
+dbGetQuery(con, paste("SELECT playerID, yearID, AB, H, HR",
+                      "FROM Batting",
+                      "ORDER BY HR DESC",
+                      "LIMIT 10"))
+## List the players with greater than 55 home runs
+dbGetQuery(con, paste("SELECT playerID, yearID, AB, H, HR",
+                      "FROM Batting",
+                      "WHERE HR > 55",
+                      "ORDER BY HR DESC"))
+## List the top 10 players between the years 1990-2000 with highest amount of home runs
+dbGetQuery(con, paste("SELECT playerID, yearID, AB, H, HR",
+                      "FROM Batting",
+                      "WHERE yearID >= 1990 AND yearID <= 2000",
+                      "ORDER BY HR DESC",
+                      "LIMIT 10"))
+```
+
+```{r}
+## List the oldest 10 players by yearID
+tenoldest_bbplyrs <- batting %>%
+                     select(playerID, yearID, AB, H, HR) %>%
+                     arrange(incr(yearID)) %>%
+                     head(10)
+View(tenoldest_bbplyrs)
+```
+
+
+Practice with SQL computations
+===
+
+- As before, remove `eval=FALSE` from the preamble to the next R code chunk. Then, after each SQL query, explain in words what is being extracted, and write some `dplyr` commands to do the equivalent. (Hint: often you'll have to use `na.rm=TRUE` to deal with NA values, for example `mean(x, na.rm=TRUE)` computes the mean of a vector `x` after removing any NA values.)
+
+```{r}
+my_db <- src_sqlite("baseball.db", create = FALSE)
+```
+
+```{r, eval=FALSE}
+dbGetQuery(con, paste("SELECT AVG(HR)",
+                      "FROM Batting"))
+
+dbGetQuery(con, paste("SELECT SUM(HR)",
+                      "FROM Batting"))
+
+dbGetQuery(con, paste("SELECT playerID, yearID, teamID, MAX(HR)",
+                      "FROM Batting"))
+
+dbGetQuery(con, paste("SELECT AVG(HR)",
+                      "FROM Batting",
+                      "WHERE yearID >= 1990"))
+```
+
+More Practice with SQL computations
+===
+
+For the rest of the lab, you can use `dplyr` to check your work, but focus on SQL syntax.
+
+- Using `dbListFields()`, list the fields available in the "Batting" table.
+
+- Using `dbGetQuery()` and the "Batting" table, calculate each player's average number of hits (`H`) per season, and display the players with the 10 highest hit averages, along with their hit averages. (Hint: `AVG()`, `GROUP BY`, `ORDER BY`.) 
+
+- Calculate the same as in the last question, but now display all players whose hit averages are above 170. (Hint: `HAVING`.)
+
+- Calculate the same as in the last question, but now display for all players with hit averages above 170----in addition to the player's ID and his batting average---the final year in which each player played. 
+
+
+Practice with SQL join operations
+===
+
+- Using an inner join, merge the "Batting" and "Salaries" tables based on matching the `yearID`, `playerID` pairs. Display the year, player, salary, and number of hits for the first 10 records.
+
+- Building off of the SQL code you wrote earlier in the lab, and the inner join code you wrote in the last question, compute the average salaries for the players with the top 10 highest hit averages.
+
+- Compute the hit averages for the players with the top 10 highest salaries. (Hint: this should only require a very small tweak to the code you wrote for the last question.)
+
