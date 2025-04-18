@@ -8,6 +8,9 @@ output: word_document
 ```{r setup, echo=FALSE, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+## Preamble
+Is the first part of the markdown R code region denoted "```{r setup, echo=FALSE, include=FALSE}"
+
 
 This list is mainly used to combine all operators, functions, and useful commands in R primarily for practicing in class. Note some straightforward elements I have not put here.
 
