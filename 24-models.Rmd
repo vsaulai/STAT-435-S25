@@ -13,6 +13,7 @@ library(png)
 ```
 
 ## Agenda
+(Parametric observation is primarily used in UW-L "normal distribution")
 
 - Exploration vs. confirmation
 - Basic modeling
@@ -20,8 +21,8 @@ library(png)
 - Using models for exploration
 
 ## Exploration vs confirmation
-
-- Each observation can either be used for exploration or confirmation, not both.
+exploration is building a model, confirmation (model = summarizing it from a system to, simplification of an underlying data structure)
+- Each observation ("individual", row in a data set) can either be used for exploration or confirmation, not both.
 - You can use an observation as many times as you like for exploration, but you can only use it once for confirmation. 
 - As soon as you use an observation twice, you’ve switched from confirmation to exploration.
 
@@ -36,7 +37,11 @@ Wickham recommends splitting your data into three pieces before you begin the an
 ## Modeling process
 
 - Choose a family of models (e.g., straight line, quadratic curve)
+  // Helps us choose us a reasonable model with ggplot. (i.e. linear regression)
 - Generate a fitted model -- this represents the "best" model of your chosen family of models (and that's it, actually...)
+  // Summary Statistics
+  // linear regression: summary of square residuals between the line regression and data points ("think about how far away the line")
+  // "Every model is wrong anyway", "Every model in statistics is wrong", "We are always working with incomplete answers", methods and choices dictate that we might get close.
   - "Best" is subjective, and depends on how you measure "best"
   - Your chosen family of models is wrong anyway!
 
@@ -139,6 +144,7 @@ models <- models %>%
   mutate(dist = purrr::map2_dbl(a1, a2, sim1_dist))
 models
 ```
+-purrr::map2_dbl() - 
 
 ## 10 best models
 
