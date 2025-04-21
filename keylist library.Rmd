@@ -127,6 +127,9 @@ library(maps) #for mapping with ggplot
 library(mapdata) #for mapping with ggplot
 library(transformr) #for changing chloropleths across time
 library(ggthemes) #extra color options
+library(modelr) #wrapper for models, works with pipe, sim1 part of modelr package
+library(gapminder) 
+library(broom) #allows for easier analytics, takes a look at functions
 
 ```
 
@@ -249,3 +252,20 @@ curve(): draw a curve, or add to existing plot
 
 ## ggplot
 
+## Model Building
+jitter - 
+
+purrr::map2_dbl() - 
+grid search = expand.grid turns two vectors, points along x axis, y axis and creates x,y pairs.
+
+`lm` doesn't actually use `optim` -- it uses properties you see in STAT 442
+
+- `add_predictions()` creates `pred` given a model, and
+            - usually for accounting through finding trends through time
+- `add_residuals()` creates `resid` based on the model
+
+glance() - 
+
+Nesting Data
+nest() - function creates a tibble in an observation point (cell in excel) containing more data values.
+unnest() - unnests data that is nested
