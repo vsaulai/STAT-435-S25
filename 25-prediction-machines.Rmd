@@ -1,0 +1,307 @@
+---
+title: "Statistical Prediction Machines"
+author: "STAT 345 - Statistical Computing"
+output:
+  slidy_presentation: default
+  beamer_presentation: default
+  ioslides_presentation: default
+---
+
+```{r, setup, include=FALSE}
+knitr::opts_chunk$set(out.width = '80%', collapse = TRUE, warning=FALSE, message=FALSE)
+library(tidyverse)
+library(knitr)
+library(png)
+```
+
+## Reminder: statistical (regression) models
+
+So you posit that $Y|X_1,\ldots,X_p \sim P_\theta$, where $\theta$ represents some unknown parameters. This is called **regression model** for $Y$ given $X_1,\ldots,X_p$. Goal is to estimate parameters. Why?
+
+- To assess model validity, predictor importance (**inference**)
+- To predict future $Y$'s from future $X_1,\ldots,X_p$'s (**prediction**)
+
+Models are only approximations; some methods need not even have underlying models; let's **evaluate prediction accuracy**, and let this determine model/method usefulness
+
+This is (in some sense) one of the basic tenets of machine learning
+
+
+## "Early" influential paper
+
+```{r echo=FALSE}
+include_graphics("25-two-cultures.png")
+```
+
+## Two Cultures
+
+```{r echo=FALSE}
+include_graphics("25-stats-model.png")
+include_graphics("25-ml-model.png")
+```
+
+
+
+## Statistical prediction machines
+
+Some methods for predicting $Y$ from $X_1,\ldots,X_p$ have (in a sense) **no parameters** at all. Perhaps better said: they are not motivated from writing down a statistical model like $Y|X_1,\ldots,X_p \sim P_\theta$
+
+We'll call these **statistical prediction machines**. Admittedly: not a real term, but it's evocative of what they are doing, and there's no real consensus terminology. You might also see these described as: 
+
+- Model-free methods
+- Distribution-free methods
+- Machine learning methods
+
+Comment: in a broad sense, most of these methods would have been **completely unthinkable** before the rise of high-performance computing
+
+## Cluster Analysis
+
+The major goal of cluster analysis is to separate individual observations, or items, into groups, or clusters, on the basis of the values for the q variables measured on each individual.
+
+- Often in clustering the items are called objects.
+- We wish to create clusters such that the objects within each cluster are similar and objects in different clusters are dissimilar.
+- The dissimilarity between any two objects is typically quantified using a distance measure (like Euclidean distance).
+- Cluster analysis is a type of *unsupervised classification*, because we do not know the nature of the groups (or the number of groups, typically) before we classify the objects into clusters.
+
+## Applications of Cluster Analysis
+
+- In marketing, researchers attempt to find distinct clusters of the consumer population so that several distinct marketing strategies can be used for the clusters.
+- In ecology, scientists classify plants or animals into various groups based on some measurable characteristics.
+- Researchers in genetics may separate genes into several classes based on their expression ratios measured at different time points.
+
+## The Need for Clustering Algorithms
+
+- We assume there are n objects that we wish we separate into a small number (say, $k$) of clusters, where $k < n$.
+- If we know the true number of clusters $k$ ahead of time, then the number of ways to partition the n objects into $k$ clusters is a “Stirling number of the second kind.”
+    - Example: There are 4.800e+16 ways to separate $n = 30$ objects into $k = 4$ clusters.
+
+## The Need for Clustering Algorithms (Continued)
+
+- If we don’t know the value of $k$, the possible number of partitions is even more
+massive.
+    - Example: There are 8.467e23 possible partitions of $n = 30$ objects if we let the number of clusters $k$ vary. (This is called the Bell number for $n$.)
+- Clearly even a computer cannot investigate all the possible clustering partitions to see which is best.
+- We need intelligently designed *algorithms* that will search among the best possible partitions relatively quickly.
+
+## Types of Clustering Algorithms
+
+There are three major classes of clustering methods – from oldest to newest, they are:
+1. Hierarchical methods
+2. Partitioning methods
+3. Model-based methods
+
+- Hierarchical methods cluster the data in a series of n steps, typically joining observations together step by step to form clusters.
+- Partitioning methods first determine k, and then typically attempt to find the partition into k clusters that optimizes some objective function of the data.
+- Model-based clustering takes a statistical approach, formulating a model that categorizes the data into subpopulations and using maximum likelihood to estimate the model parameters.
+
+## Cluster Analysis - Partitioning Methods
+
+Partitioning methods fix the number of clusters $k$ and seek the best possible partition for that $k$.
+
+- The goal is to choose the partition which gives the optimal value for some clustering criterion, or *objective function*.
+- In reality, we cannot search all possible partitions to try to optimize the clustering criterion, but the algorithms are designed to search intelligently among the partitions.
+- For a fixed $k$, partitioning methods are able to investigate far more possible partitions than a hierarchical method is.
+- In practice, it is recommended to run a partitioning method for several choices of k and examine the resulting clusterings.
+
+## k-nearest neighbors
+
+One of the simplest prediction machines: **k-nearest neighbors** regressions
+
+- Given training data $X_i=(X_{i1},\ldots,X_{ip})$ and $Y_i$, $i=1,\ldots,n$ 
+- Given a new test point $X^*=(X^*_1,\ldots,X^*_p)$
+- Find $k$-nearest training points $X_{(1)},\ldots,X_{(k)}$ to $X^*$
+- Use as our prediction $\hat{Y^*}=\sum_{i=1}^k Y_{(i)}/k$
+
+What happens when $k=1$? What happens when $k=n$?
+
+
+## k-nearest neighbors
+
+```{r echo=FALSE}
+include_graphics("25-knn.png")
+```
+
+
+## K-means Clustering
+
+The goal of K-means, the most well-known partitioning method, is to find the partition of $n$ objects into $k$ clusters that minimizes a *within-cluster sum of squares* criterion.
+
+- In the traditional K-means approach, “closeness” to the cluster centers is defined in terms of squared Euclidean distance, defined by: $$d^2_E(x, \bar{x}_c) = (x − \bar{x}_c)^T(x − \bar{x}_c) = \sum_m(x_{im}-\bar{x}_{cm})^2,$$ where $x = (x_1, \ldots , x_q)^T$ is any particular observation and $\bar{x}_c$ is the centroid (multivariate mean vector) for, say, cluster $c$. 
+
+## K-means Clustering (Continued)
+
+The goal is to minimize the sum (over all objects within all clusters) of these squared Euclidean distances: $$WSS = \sum_{c=1}^k\sum_{i \in c}d_e^2(x_i, \bar{x}_c)$$
+
+- In practice, K-means will not generally achieve the global minimum of this criterion over the whole space of partitions.
+- In fact, only under certain conditions will it achieve the local minimum (Selim and Ismail, 1984).
+
+
+## Example
+
+We'll use the super-common `iris` dataset in R to test the most basic knn appraoch (classification):
+
+```{r}
+glimpse(iris)
+```
+
+## Example
+
+```{r echo=FALSE}
+include_graphics("25-iris.png")
+```
+
+
+## Example
+
+```{r echo=FALSE}
+qplot(Sepal.Length, Sepal.Width, color=Species, data=iris, cex=2)
+```
+
+## Example
+
+```{r echo=FALSE}
+qplot(Petal.Length, Petal.Width, color=Species, data=iris, cex=2)
+```
+
+## Example
+
+```{r}
+summary(iris)
+```
+
+## Example
+
+There are several packages that implement k-nearest-neighbors classification.  We'll use `class` today:
+
+```{r message=FALSE}
+library(class)
+```
+
+## Example
+
+Standard k-nearest-neighbor methods use Euclidean distance to group observations.  Look again at the scatterplot for Petal Length and Petal Width:
+
+```{r echo=FALSE}
+qplot(Petal.Length, Petal.Width, color=Species, data=iris, cex=2)
+```
+
+## Standardization of Observations
+
+- If the variables in our data set are of different types or are measured on very different scales, then some variables may play an inappropriately dominant role in the clustering process.
+    - In this case, it is recommended to standardize the variables in some way before clustering the objects.
+    
+## Standardization of Observations
+
+- Possible standardization approaches:
+    1. Divide each column by its sample standard deviation, so that all variables have standard deviation 1.
+    2. Divide each variable by its sample range (max − min); Milligan and Cooper (1988) found that this approach best preserved the clustering structure. 
+    3. Convert data to z-scores by (for each variable) subtracting the sample mean and then dividing by the sample standard deviation – a common option in clustering software packages.
+
+
+## Example
+
+Normalizing the data will prevent one variable from dominating the classification process.
+
+```{r}
+#Build your own `normalize()` function:
+normalize <- function(x){
+  num <- x-min(x)
+  denom <- max(x)-min(x)
+  return(num/denom)
+}
+```
+
+## Example
+
+```{r}
+iris_norm <- as.data.frame(lapply(iris[1:4], normalize))
+summary(iris_norm)
+```
+
+## Example
+
+Let's determine training and testing sets:
+
+```{r}
+ind <- sample(2, nrow(iris), replace=TRUE, prob=c(0.67, 0.33))
+iris.training <- iris[ind==1, 1:4]
+iris.test <- iris[ind==2, 1:4]
+```
+
+## Example
+
+We're interested in predicting a flower's species, so we need to have objects for that!
+
+```{r}
+iris.trainLabels <- iris[ind==1,5]
+iris.testLabels <- iris[ind==2, 5]
+head(iris.testLabels)
+```
+
+## Example
+
+Building the knn model:
+
+```{r}
+iris_pred <- knn(train = iris.training, test = iris.test, cl = iris.trainLabels, k=3)
+
+# Inspect `iris_pred`
+iris_pred
+```
+
+## Example
+
+Model evaluation:
+
+```{r}
+# Put `iris.testLabels` in a data frame
+irisTestLabels <- data.frame(iris.testLabels)
+
+# Merge `iris_pred` and `iris.testLabels` 
+merge.iris <- data.frame(iris_pred, iris.testLabels)
+
+# Specify column names for `merge`
+names(merge.iris) <- c("Predicted Species", "Observed Species")
+```
+
+## Example
+
+```{r}
+# Inspect `merge` 
+merge.iris
+```
+
+## Example
+
+```{r}
+table(merge.iris)
+```
+
+
+## From $k$-nearest neighbors to trees
+
+Regression **trees** are similar to KNN methods, but somewhat different. In a nutshell, they use (nested) rectangles to divide up the sample space. These rectangles are fit through sequential (greedy) split-point determinations 
+
+## From $k$-nearest neighbors to trees
+
+```{r echo=FALSE}
+include_graphics("25-tree.png")
+```
+
+
+## Many, many others
+
+There are many, many other statistical prediction methods out there; examples below. If you're interesting in learning more, take STAT 443 or STAT 764.
+
+- Kernel machines
+- Random forests
+- Neural networks
+- etc.
+
+
+## Conclusion
+
+- Neither world view is completely right, of course
+- Inference, prediction are still both extremely important in their own right
+- And even still, there is much more to statistics than these two
+- Best you can do: be well-informed about all of your modeling options
+- Also be well-informed about how you can fit them and assess them!
