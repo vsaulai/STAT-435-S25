@@ -13,10 +13,17 @@ library(tidyverse)
 library(knitr)
 library(png)
 ```
-
+Preview for STAT 443 + 449
+  techniques that are focused on these classes
 ## Reminder: statistical (regression) models
-
+    when we are working in statistical models, our goal is to claim that our response variable is dependent or conditioned on x is modeled by some parameters. "Regression Model" Old study from Norway, question posited, "Do tall fathers also have tall sons?", measured the heights of sons and fathers. Concl: Slope was less than 1 "A tall dad does have a tall son but slightly shorter, therefore regressing towards mediocrity or standard"
 So you posit that $Y|X_1,\ldots,X_p \sim P_\theta$, where $\theta$ represents some unknown parameters. This is called **regression model** for $Y$ given $X_1,\ldots,X_p$. Goal is to estimate parameters. Why?
+goal: focus of statistics - to look at the important predictors (p-values). Ask: what is causing the response variables we are seeing? Why we are getting the variability in our data.
+data science: focus is on prediction - can we use existing data to focus on new future predictions of future data?
+If you can make reasonable predictions, can make better decisions for business. (Advent of modern computing)
+Statistics have developed using a bunch of shortcuts. Allowed us to do a lot of things without doing much computation.
+Models have changed because of these computer tools.
+data science: trending back towards explaining machine learning models.
 
 - To assess model validity, predictor importance (**inference**)
 - To predict future $Y$'s from future $X_1,\ldots,X_p$'s (**prediction**)
@@ -25,6 +32,7 @@ Models are only approximations; some methods need not even have underlying model
 
 This is (in some sense) one of the basic tenets of machine learning
 
+A lot of machine learning techniques, need to be understood.
 
 ## "Early" influential paper
 
@@ -33,6 +41,7 @@ include_graphics("25-two-cultures.png")
 ```
 
 ## Two Cultures
+inference models, specific model is understandable either some care about the practicality of the model from the variables
 
 ```{r echo=FALSE}
 include_graphics("25-stats-model.png")
@@ -43,8 +52,9 @@ include_graphics("25-ml-model.png")
 
 ## Statistical prediction machines
 
+If we want to make predictions, we might not need to think about parameters at all. Distribution free methods.
 Some methods for predicting $Y$ from $X_1,\ldots,X_p$ have (in a sense) **no parameters** at all. Perhaps better said: they are not motivated from writing down a statistical model like $Y|X_1,\ldots,X_p \sim P_\theta$
-
+(443 + 449)
 We'll call these **statistical prediction machines**. Admittedly: not a real term, but it's evocative of what they are doing, and there's no real consensus terminology. You might also see these described as: 
 
 - Model-free methods
@@ -54,8 +64,9 @@ We'll call these **statistical prediction machines**. Admittedly: not a real ter
 Comment: in a broad sense, most of these methods would have been **completely unthinkable** before the rise of high-performance computing
 
 ## Cluster Analysis
-
+take a bunch of individuals in a meaningful sub-group. oftentimes we don't have initial labels to group based off of.
 The major goal of cluster analysis is to separate individual observations, or items, into groups, or clusters, on the basis of the values for the q variables measured on each individual.
+cluster: objects are supposed to be similar in same clusters and different to other clusters.
 
 - Often in clustering the items are called objects.
 - We wish to create clusters such that the objects within each cluster are similar and objects in different clusters are dissimilar.
@@ -65,17 +76,21 @@ The major goal of cluster analysis is to separate individual observations, or it
 ## Applications of Cluster Analysis
 
 - In marketing, researchers attempt to find distinct clusters of the consumer population so that several distinct marketing strategies can be used for the clusters.
+    marketing: towards pregnant women, looking at data to fit into a certain class (browser search history)
+    
 - In ecology, scientists classify plants or animals into various groups based on some measurable characteristics.
+    lifecycle: of trees along the mississippi. 
 - Researchers in genetics may separate genes into several classes based on their expression ratios measured at different time points.
+    Genes: Could we classify some genes clustering it into genes responsible to Down syndrome?
 
 ## The Need for Clustering Algorithms
-
+(the possibility is endless, many, many, different ways to do clusters)
 - We assume there are n objects that we wish we separate into a small number (say, $k$) of clusters, where $k < n$.
 - If we know the true number of clusters $k$ ahead of time, then the number of ways to partition the n objects into $k$ clusters is a “Stirling number of the second kind.”
     - Example: There are 4.800e+16 ways to separate $n = 30$ objects into $k = 4$ clusters.
 
 ## The Need for Clustering Algorithms (Continued)
-
+(number is calculated, stirling number of the second kind)
 - If we don’t know the value of $k$, the possible number of partitions is even more
 massive.
     - Example: There are 8.467e23 possible partitions of $n = 30$ objects if we let the number of clusters $k$ vary. (This is called the Bell number for $n$.)
@@ -83,14 +98,16 @@ massive.
 - We need intelligently designed *algorithms* that will search among the best possible partitions relatively quickly.
 
 ## Types of Clustering Algorithms
-
+(imperfect answer)
 There are three major classes of clustering methods – from oldest to newest, they are:
 1. Hierarchical methods
 2. Partitioning methods
 3. Model-based methods
 
 - Hierarchical methods cluster the data in a series of n steps, typically joining observations together step by step to form clusters.
+  start with 30 clusters, then find two clusters similar-like and cluster them together, until you get back to one total cluster, creating a cluster diagram.
 - Partitioning methods first determine k, and then typically attempt to find the partition into k clusters that optimizes some objective function of the data.
+  how many groups you want to deal with. Optimize later for functionality with the clusters.
 - Model-based clustering takes a statistical approach, formulating a model that categorizes the data into subpopulations and using maximum likelihood to estimate the model parameters.
 
 ## Cluster Analysis - Partitioning Methods
@@ -103,7 +120,8 @@ Partitioning methods fix the number of clusters $k$ and seek the best possible p
 - In practice, it is recommended to run a partitioning method for several choices of k and examine the resulting clusterings.
 
 ## k-nearest neighbors
-
+  lets say, we have training-data, given a new data value test point, find the points nearest to it and use it to make a prediction.
+  the test point is then clustered similar to it's nearest neighbor data point.
 One of the simplest prediction machines: **k-nearest neighbors** regressions
 
 - Given training data $X_i=(X_{i1},\ldots,X_{ip})$ and $Y_i$, $i=1,\ldots,n$ 
@@ -185,7 +203,8 @@ qplot(Petal.Length, Petal.Width, color=Species, data=iris, cex=2)
 ```
 
 ## Standardization of Observations
-
+(standardizing variables)
+(converting to z-scores, dividing by standard deviation)
 - If the variables in our data set are of different types or are measured on very different scales, then some variables may play an inappropriately dominant role in the clustering process.
     - In this case, it is recommended to standardize the variables in some way before clustering the objects.
     
@@ -243,7 +262,7 @@ Building the knn model:
 
 ```{r}
 iris_pred <- knn(train = iris.training, test = iris.test, cl = iris.trainLabels, k=3)
-
+# k = clusters
 # Inspect `iris_pred`
 iris_pred
 ```
@@ -279,7 +298,9 @@ table(merge.iris)
 
 ## From $k$-nearest neighbors to trees
 
-Regression **trees** are similar to KNN methods, but somewhat different. In a nutshell, they use (nested) rectangles to divide up the sample space. These rectangles are fit through sequential (greedy) split-point determinations 
+Regression **trees** are similar to KNN methods, but somewhat different. In a nutshell, they use (nested) rectangles to divide up the sample space. These rectangles are fit through sequential (greedy) split-point determinations
+partitioning, lines splitting data into clusters, no such thing as two points being completely equal.
+fuzzy clustering
 
 ## From $k$-nearest neighbors to trees
 
@@ -291,10 +312,13 @@ include_graphics("25-tree.png")
 ## Many, many others
 
 There are many, many other statistical prediction methods out there; examples below. If you're interesting in learning more, take STAT 443 or STAT 764.
-
+(computational tools)
 - Kernel machines
 - Random forests
+    collection of trees, similar to regression trees ("stochastic-like")
 - Neural networks
+    using the idea of the brain, developing machine-learning methods.
+    unexplainability in models
 - etc.
 
 
@@ -302,6 +326,10 @@ There are many, many other statistical prediction methods out there; examples be
 
 - Neither world view is completely right, of course
 - Inference, prediction are still both extremely important in their own right
+- Caring about inferences, (t-statistic, regression, p-value), (prediction is important in business side operations)
+    data science vs statistics
+    be aware of all the tools out there (clustering methods exist, regression trees)
+    issues: with these tools: use with scrutiny, usually a random process, worry about the size of data and standardize it, skewed data is another worry
 - And even still, there is much more to statistics than these two
 - Best you can do: be well-informed about all of your modeling options
 - Also be well-informed about how you can fit them and assess them!
