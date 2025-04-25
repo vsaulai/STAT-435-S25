@@ -130,6 +130,8 @@ library(ggthemes) #extra color options
 library(modelr) #wrapper for models, works with pipe, sim1 part of modelr package
 library(gapminder) 
 library(broom) #allows for easier analytics, takes a look at functions
+library(rvest) #web scraping package
+library(tidytext) #converts text into tidy format, and text mining
 
 ```
 
@@ -181,6 +183,12 @@ Data Frame - A two-dimensional table-like structure containing multiple types of
 \\s* none or  more white space
 $   end of string
 
+## Web Scraping
+&gt;    (greater than) HTML
+&lt;    (less than)    HTML
+read_html() - returns an xml_document object to manipulate using rvest functions
+minimal_html() - function that lets you write html inline
+html_elements() - function to find all elements that match the selector
 
 ## Strings (str) Detect, Locate, Extract, Describe, Replace
 
