@@ -190,6 +190,14 @@ read_html() - returns an xml_document object to manipulate using rvest functions
 minimal_html() - function that lets you write html inline
 html_elements() - function to find all elements that match the selector
 
+gsub() - replace all occurrences of a pattern in a string using regular expressions ("substitute")
+
+gsub(pattern, #What you want to find (can be a regular expression)
+  replacement, # What you want to replace it with
+  x, # The string(s) you're working on
+  ignore.case = FALSE, # If TRUE, ignores case
+  fixed = FALSE) # If TRUE, treats pattern as a plain string (no regex)
+
 ## Strings (str) Detect, Locate, Extract, Describe, Replace
 
 str_detect	Detect  	Is the pattern in the string?	grepl
