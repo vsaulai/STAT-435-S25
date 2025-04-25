@@ -48,3 +48,8 @@ get_lyrics <- function(artist, song_title) {
   lyrics <- html_text(lyrics_node)
   return(lyrics)
 }
+
+
+url_song1 <- "https://www.azlyrics.com/lyrics/lorde/whatwasthat.html"
+html <- read_html(url_song1)
+cast <- html_nodes(html, "br+ div")
