@@ -1,0 +1,50 @@
+install.packages("rvest")
+install.packages("httr")
+install.packages("stringr")
+
+
+library(rvest)
+library(httr)
+library(stringr)
+
+get_lyrics <- function(artist, song_title) {
+  # Clean up inputs
+  artist <- tolower(gsub(" ", "-", artist))
+  song_title <- tolower(gsub(" ", "-", song_title))
+  
+  # Construct the search URL
+  search_url <- paste0("https://www.lyrics.com/serp.php?st=", 
+                       URLencode(song_title), 
+                       "&q=", 
+                       URLencode(artist))
+
+  # Read the search page
+  page <- tryCatch(read_html(search_url), error = function(e) NULL)
+  if (is.null(page)) {
+    return("Failed to read search page.")
+  }
+
+  # Extract first matching lyrics link
+  link_node <- html_node(page, xpath = "//td[@class='tal qx']/strong/a")
+  if (is.null(link_node)) {
+    return("Lyrics link not found.")
+  }
+
+  lyrics_link <- html_attr(link_node, "href")
+  full_link <- paste0("https://www.lyrics.com", lyrics_link)
+
+  # Read the lyrics page
+  lyrics_page <- tryCatch(read_html(full_link), error = function(e) NULL)
+  if (is.null(lyrics_page)) {
+    return("Failed to read lyrics page.")
+  }
+
+  # Extract the lyrics
+  lyrics_node <- html_node(lyrics_page, xpath = "//pre[@id='lyric-body-text']")
+  if (is.null(lyrics_node)) {
+    return("Lyrics not found.")
+  }
+
+  lyrics <- html_text(lyrics_node)
+  return(lyrics)
+}
